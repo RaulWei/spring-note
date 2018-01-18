@@ -30,3 +30,19 @@ XXX xxx = context.getBean("xxx");
 2. `class` - 要创建的对象所在**类的全路径**
 3. `name` - 功能和`id`一样，能包含特殊符号
 4. `scope` - `singleton`或`prototype`
+
+## 属性注入
+
+1. 构造注入
+```Java
+<bean id="xx" class="complete.class.package.name">
+    <constructor-arg name="argName" value="concreteValue"></constructor-arg>
+</bean>
+```
+
+2. `Set`注入
+```Java
+<bean id="xx" class="complete.class.package.name">
+    <property name="propertyName" value="concreteValue"></property>
+</bean>
+```
