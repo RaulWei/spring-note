@@ -1,3 +1,11 @@
+# Spring IoC
+
+---
+
+- [IoC底层原理](#IoC底层原理)
+- [基于配置文件的IoC](#基于配置文件的IoC)
+- [属性注入](#属性注入)
+
 ## IoC底层原理
 
 `xml`记录很多`class`信息 -> 解析`xml`提取信息 -> 反射创建对象 -> 管理对象
@@ -46,3 +54,9 @@ XXX xxx = context.getBean("xxx");
     <property name="propertyName" value="concreteValue"></property>
 </bean>
 ```
+
+## `BeanPostProcessor`
+
+`BeanPostProcessor` has 2 main methods, `postProcessBeforeInitialization` and `postProcessorAfterInitialization`.
+
+We can utilize this built-in instance to realize our custome annotation.
