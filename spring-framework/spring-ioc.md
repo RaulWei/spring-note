@@ -60,3 +60,9 @@ XXX xxx = context.getBean("xxx");
 `BeanPostProcessor` has 2 main methods, `postProcessBeforeInitialization` and `postProcessorAfterInitialization`.
 
 We can utilize this built-in instance to realize our custome annotation.
+
+## Spring整合web项目原理
+
+1. 服务器启动时为每个项目创建一个`ServletContext`对象
+2. 监听器可以监听`ServletContext`对象创建时机，则加载配置完成配置对象们的创建，并将其放入`ServletContext`域对象中
+3. 到`ServletContext`域对象中获取所需对象
