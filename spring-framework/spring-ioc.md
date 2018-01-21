@@ -99,6 +99,14 @@ We can utilize this built-in instance to realize our custome annotation.
 * `@Autowired`根据类型去找装配类
 * `@Resource(name="xxx")`根据组件名如`@Component(value="xxx")`中定义的`xxx`去找装配类
 
+## 纯配置文件
+1. web.xml
+2. applicationContext.xml
+
+## 纯注解
+1. `web.xml` -> `WebApplicationInitializer`
+2. `applicationContext.xml` -> `@Configuration`
+
 ## 配置文件和注解混合使用
 1. 创建对象操作使用配置文件方式
 2. 注入属性操作使用注解方式
