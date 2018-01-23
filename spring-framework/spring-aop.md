@@ -4,6 +4,8 @@
 
 - [AOP底层原理](#aop底层原理)
 - [AOP操作术语](#aop操作术语)
+- [基于配置文件的AspectJ](#基于配置文件的aspectj)
+- [基于注解的AspectJ](#基于注解的aspectj)
 ---
 
 ## AOP底层原理
@@ -50,3 +52,22 @@
 
 
 ## 基于注解的AspectJ
+
+1. 创建对象
+2. `Spring`核心配置文件中开启`AOP`操作
+3. 在增强类上使用注解完成`AOP`
+
+```Xml
+<bean id="book" class="cn.itcast.aop.Book"></bean>
+<bean id="adviceBook" class="cn.itcast.aop.AdviceBook"></bean>
+
+<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+```
+
+```Java
+@Aspect
+public class AdviceBook {
+	@Before(value="execution(* cn.itcast.aop.Book.*(..))")
+	public void before() { ... }
+}
+```
