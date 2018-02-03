@@ -48,4 +48,21 @@ int count = jdbcTemplate.queryForObject(sql, Integer.class);
 
 * 查询返回对象
 
+```Java
+String sql = "select * from user where username=?";
+User user = jdbcTemplate.queryForObject(sql, new MyRowMapper(), "mary");
+
+class MyRowMapper implements RowMapper<User> {
+	@Override public User mapRow(ResultSet rs, int num) throws SQLException {
+		// 1. 从结果集取出数据
+		// 2. 把数据封装进对象当中
+	}
+}
+```
+
 * 查询返回列表
+
+```Java
+String sql = "select * from user";
+List<User> users = jdbcTemplate.query(sql, new MyRowMapper());
+```
