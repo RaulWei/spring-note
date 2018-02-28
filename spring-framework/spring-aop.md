@@ -41,11 +41,12 @@
 <bean id="book" class="cn.itcast.aop.Book"></bean>
 <bean id="adviceBook" class="cn.itcast.aop.AdviceBook"></bean>
 
+<!-- adviceBook#adviceBookBefore -> book -->
 <aop:config>
 	<!-- config pointcut -->
 	<aop:pointcut expression="execution(* cn.itcast.aop.Book.*(..))" id="pointcutId" />
 	<!-- config aspect -->
-	<aop:aspect ref="AdviceBook">
+	<aop:aspect ref="adviceBook">
 		<aop:before method="adviceBookBefore" pointcut-ref="pointcutId" />
 	</aop:aspect>
 </aop:config>
