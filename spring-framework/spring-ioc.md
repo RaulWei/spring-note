@@ -18,6 +18,8 @@
 1. `BeanFactory` - 基础`IoC`容器，默认**延迟初始化**
 2. `ApplicationContext` - 在`BeanFactory`基础上构建的，默认容器启动后**全部初始化并绑定完成**
 
+`Spring IoC`中几个重要接口
+1. `BeanFactoryAware` - 容器在实例化实现了该接口的`bean`的过程中会自动将容器本身注入该`bean`
 
 ## 基于配置文件的IoC
 
