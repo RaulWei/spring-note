@@ -14,6 +14,10 @@
 * `xml`记录很多`class`信息 -> 解析`xml`提取信息 -> 反射创建对象 -> 管理对象
 * `Configuration`文件记录很多`Bean`信息 -> 解析提取信息 -> 反射创建对象 -> 管理对象
 
+`Spring`提供两种容器
+1. `BeanFactory` - 基础`IoC`容器，默认**延迟初始化**
+2. `ApplicationContext` - 在`BeanFactory`基础上构建的，默认容器启动后**全部初始化并绑定完成**
+
 
 ## 基于配置文件的IoC
 
