@@ -18,6 +18,17 @@
 1. `BeanFactory` - 基础`IoC`容器，默认**延迟初始化**
 2. `ApplicationContext` - 在`BeanFactory`基础上构建的，默认容器启动后**全部初始化并绑定完成**
 
+`BeanFactoryPostProcessor`扩展机制允许在容器实例化对象之前，对注册到容器的`BeanDefinition`所保存的信息做相应修改！
+几种内置的`BeanFactoryPostProcessor`实现
+1. `PropertyPlaceholderConfigurer` - 替换`BeanDefinition`中的**占位符**，如`${jdbc.username}`，不仅会从`properties`加载配置，还会从`System`类中找
+2. `PropertyOverrideConfigurer` - 覆盖`BeanDefinition`中的配置信息
+3. `CustomEditorConfigurer` - `Spring`通过`JavaBean`的`PropertyEditor`来帮助`String`类型到其他类型的转换，这里允许自定义并包装`PropertyEditor`
+
+`BeanPostProcessor`会处理容器内所有符合条件的实例化后的对象实例
+1. 用标记接口来标注待处理类
+2. 自定义`BeanPostProcessor`的实现类，其中根据标记接口找到要处理的类
+3. 将自定义`BeanPostProcessor`注册到容器
+
 `Spring IoC`中几个重要接口
 1. `BeanFactoryAware` - 容器在实例化实现了该接口的`bean`的过程中会自动将容器本身注入该`bean`
 
