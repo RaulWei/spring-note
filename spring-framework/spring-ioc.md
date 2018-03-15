@@ -18,6 +18,8 @@
 1. `BeanFactory` - 基础`IoC`容器，默认**延迟初始化**
 2. `ApplicationContext` - 在`BeanFactory`基础上构建的，默认容器启动后**全部初始化并绑定完成**
 
+### `BeanFactory`
+
 `BeanFactoryPostProcessor`扩展机制允许在容器实例化对象之前，对注册到容器的`BeanDefinition`所保存的信息做相应修改！
 几种内置的`BeanFactoryPostProcessor`实现
 1. `PropertyPlaceholderConfigurer` - 替换`BeanDefinition`中的**占位符**，如`${jdbc.username}`，不仅会从`properties`加载配置，还会从`System`类中找
@@ -31,6 +33,22 @@
 
 `Spring IoC`中几个重要接口
 1. `BeanFactoryAware` - 容器在实例化实现了该接口的`bean`的过程中会自动将容器本身注入该`bean`
+
+### `ApplicationContext`
+
+#### 统一资源加载
+
+`Resource`
+1. `ByteArrayResource`
+2. `ClassPathResource`
+3. `FileSystemResource`
+4. `UrlResource`
+5. `InputStreamResource`
+
+`ResourceLoader`
+1. `DefaultResourceLoader` - 先尝试`classpath`定位，再尝试`url`定位，最后尝试`getResourceByPath`(默认构造`ClassPathResource`)
+2. `FileSystemResourceLoader` - 其他逻辑如上，只是覆盖最后一步`getResourceByPath`逻辑为从文件系统加载资源
+3. `ResourcePatternResolver` - 批量加载`Resource`
 
 ## 基于配置文件的IoC
 
