@@ -50,6 +50,20 @@
 2. `FileSystemResourceLoader` - 其他逻辑如上，只是覆盖最后一步`getResourceByPath`逻辑为从文件系统加载资源
 3. `ResourcePatternResolver` - 批量加载`Resource`
 
+#### 国际化信息支持
+
+* `Java SE`支持的国际化
+
+1. `Locale` - 语言代码和国家代码
+2. `ResourceBundle` - 用于保存特定于某个`Locale`的信息，管理一组信息序列，所有信息序列有统一`basename`，然后特定的`Locale`信息
+
+通过`ResourceBundle#getBundle(String baseName, Locale locale)`取得不同`Locale`对应的`ResourceBundle`，再根据资源的键取得相应`Locale`的资源条目内容！
+
+* `Spring`支持的国际化
+
+1. `MessageSource`统一了国际化访问，派生`AbstractMessageSource`，实现`StaticMessageSource`，`ResourceBundleMessageSource`，`ReloadableResourceBundleMessageSource`
+2. 实现`MessageSourceAware`则将`ApplicationContext`注入进来，侵入性太强，需要的话直接注入配置好的`MessageSource`就行
+
 ## 基于配置文件的IoC
 
 ```Java
