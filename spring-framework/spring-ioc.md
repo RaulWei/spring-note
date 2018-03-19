@@ -64,6 +64,14 @@
 1. `MessageSource`统一了国际化访问，派生`AbstractMessageSource`，实现`StaticMessageSource`，`ResourceBundleMessageSource`，`ReloadableResourceBundleMessageSource`
 2. 实现`MessageSourceAware`则将`ApplicationContext`注入进来，侵入性太强，需要的话直接注入配置好的`MessageSource`就行
 
+#### 容器内部事件发布
+
+* 自定义事件发布
+
+1. 自定义事件类型`CustomEvent`
+2. 实现针对`CustomEvent`的事件监听器`EventListener`
+3. 事件发布器`EventPublisher`组合`CustomEvent`和`EventListener`，负责具体时点上`CustomEvent`的发布和`EventListener`的管理
+
 ## 基于配置文件的IoC
 
 ```Java
