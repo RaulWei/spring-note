@@ -72,6 +72,12 @@
 2. 实现针对`CustomEvent`的事件监听器`EventListener`
 3. 事件发布器`EventPublisher`组合`CustomEvent`和`EventListener`，负责具体时点上`CustomEvent`的发布和`EventListener`的管理
 
+* `Spring`容器内事件发布
+
+1. `ApplicationEvent` - 容器即将关闭`ContextClosedEvent`，容器初始化或刷新`ContextRefreshedEvent`，请求处理后`RequestHandledEvent`
+2. `ApplicationListener`
+3. `ApplicationContext` - 转发给成员实现`ApplicationEventMulticaster`接口，其子类实现`Listener`管理，孙类实现事件发布
+
 ## 基于配置文件的IoC
 
 ```Java
