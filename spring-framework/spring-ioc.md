@@ -78,6 +78,16 @@
 2. `ApplicationListener`
 3. `ApplicationContext` - 转发给成员实现`ApplicationEventMulticaster`接口，其子类实现`Listener`管理，孙类实现事件发布
 
+#### 多配置模块加载
+
+1. `ApplicationContext`加载多个配置文件
+```Java
+String[] locations = new String[] {"conf/dao-tier.springxml", "conf/view-tier.springxml"};
+ApplicationContext ctx = new FileSystemXmlApplicationContext(locations);
+```
+2. 通过在某主配置文件中使用`import`分别加载其余配置文件，然后容器可以通过加载主配置文件来加载其他配置
+
+
 ## 基于配置文件的IoC
 
 ```Java
