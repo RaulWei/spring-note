@@ -32,6 +32,35 @@
 * `Introduction` - 在不修改代码的前提下，`Introduction`可以在**运行期**为`Target`动态添加方法或属性
 * `Proxy` - 一个`Target`被`Weaving`之后就产生一个结果代理类
 
+### Pointcut
+
+`Pointcut`接口包含
+1. `ClassFilter` - 类型匹配
+2. `MethodMatcher` - 方法匹配
+
+`Pointcut`分类
+1. `StaticMethodMatcherPointcut` - `MethodMatcher#isRuntime()=false`，不关注匹配方法的参数，静态，性能好
+2. `DynamicMethodMatcherPointcut` - `MethodMatcher#isRuntime()=true`
+
+常见内置`Pointcut`
+1. `NameMatchMethodPointcut` - 匹配方法名称
+2. `JdkRegexMethodPointcut` - 正则匹配**方法签名**
+3. `Perl5RegexpMethodPointcut`
+4. `AnnotationMatchingPointcut`
+5. `ComposablePointcut` - 支持**并**、**交**等逻辑运算
+6. `ControlFlowPointcut` - 匹配**特定对象对特定方法的调用执行流程**
+
+### Advice
+
+`per-class`类型的`Advice`是指其可以在目标对象类的所有实例间共享！
+1. `BeforeAdvice` - 包括`MethodBeforeAdvice`
+2. `AfterAdvice` - 包括`ThrowsAdvice`和`AfterReturningAdvice`
+3. `AroundAdvice` - 包括`MethodInterceptor`
+
+`per-instance`类型的`Advice`为不同实例对象保持各自的状态及相关逻辑
+* `Introduction` - `IntroductionInterceptor`
+* `DelegatingIntroductionInterceptor`和`DelegatePerTargetObjectIntroductionInterceptor`
+
 ## 基于配置文件的AspectJ
 
 * 使用表达式配置切入点
@@ -73,3 +102,4 @@ public class AdviceBook {
 	public void before() { ... }
 }
 ```
+
