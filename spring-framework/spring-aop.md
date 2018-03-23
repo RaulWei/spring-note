@@ -32,7 +32,7 @@
 * `Introduction` - 在不修改代码的前提下，`Introduction`可以在**运行期**为`Target`动态添加方法或属性
 * `Proxy` - 一个`Target`被`Weaving`之后就产生一个结果代理类
 
-### Pointcut
+### SpringAOP的Pointcut
 
 `Pointcut`接口包含
 1. `ClassFilter` - 类型匹配
@@ -50,7 +50,7 @@
 5. `ComposablePointcut` - 支持**并**、**交**等逻辑运算
 6. `ControlFlowPointcut` - 匹配**特定对象对特定方法的调用执行流程**
 
-### Advice
+### SpringAOP的Advice
 
 `per-class`类型的`Advice`是指其可以在目标对象类的所有实例间共享！
 1. `BeforeAdvice` - 包括`MethodBeforeAdvice`
@@ -60,6 +60,30 @@
 `per-instance`类型的`Advice`为不同实例对象保持各自的状态及相关逻辑
 * `Introduction` - `IntroductionInterceptor`
 * `DelegatingIntroductionInterceptor`和`DelegatePerTargetObjectIntroductionInterceptor`
+
+### SpringAOP的Aspect
+
+1. `PointcutAdvisor`
+   1. `DefaultPointcutAdvisor`可以使用任何类型的`Pointcut`和`Advice`
+   2. `NameMatchMethodPointcutAdvisor`限定了`Pointcut`只能使用`NameMatchMethodPointcut`，`Advice`没有限制
+   3. `RegexpMethodPointcutAdvisor`限定了`Pointcut`只能使用`JdkRegexpMethodPointcut`或`Perl5RegexpMethodPointcut`
+2. `IntroductionAdvisor` - 只能应用于类级别的拦截，只能使用`Introduction`型的`Advice`
+
+某些`Advisor`的`Pointcut`匹配同一个`Joinpoint`的时候，就会在这同一个`Joinpoint`处执行多个`Advice`的横切逻辑！可能需要我们干预其执行顺序！
+`Order`越小，优先级越高！
+
+### SpringAOP的织入
+
+`ProxyFactory`是`Spring`最基本的一个织入器！`Spring AOP`是基于代理模式的`AOP`，织入完成后会返回织入了横切逻辑的目标对象的代理对象！
+使用`ProxyFactory`只需要指定两个基本：**要对其进行织入的目标对象**和**要应用到目标对象的`Aspect`**！
+
+1. 基于接口的代理 - 如果目标对象实现了至少一个接口，`ProxyFactory`默认按照面向接口进行代理
+2. 基于类的代理 - 如果满足下述3种条件之一，`ProxyFactory`将对目标类进行基于类的代理
+   1. 目标类没有实现任何接口
+   2. `ProxyFactory`的`proxyTargetClass`属性设置为`true`
+   3. `ProxyFactory`的`optimize`属性设置为`true`
+
+`Introduction`的织入比较特殊，它可以为**已经存在**的对象类型添加新行为，只能应用于**对象级别**而不是**方法级别**！所以在织入时不需要指定`Pointcut`，只需要指定目标接口类型！`Spring`的`Introduction`支持**只能**通过**接口**定义为当前对象添加新行为！
 
 ## 基于配置文件的AspectJ
 
