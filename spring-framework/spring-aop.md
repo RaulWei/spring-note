@@ -85,6 +85,14 @@
 
 `Introduction`的织入比较特殊，它可以为**已经存在**的对象类型添加新行为，只能应用于**对象级别**而不是**方法级别**！所以在织入时不需要指定`Pointcut`，只需要指定目标接口类型！`Spring`的`Introduction`支持**只能**通过**接口**定义为当前对象添加新行为！
 
+`ProxyFactoryBean`是`Spring`另一个织入器！如果容器中某个对象依赖于`ProxyFactoryBean`，那么它将会使用`ProxyFactoryBean#getObject`返回的代理对象！
+
+### SpringAop的自动代理
+
+`Spring`可用的`AutoProxyCreator`
+1. `BeanNameAutoProxyCreator` - 半自动，需要指定为哪些`Bean`生成代理对象，以及要应用到目标对象的拦截器、`Advice`
+2. `DefaultAdvisorAutoProxyCreator` - 全自动，自动搜索容器内所有`Advisor`，根据其拦截信息，为符合条件的容器目标对象生成代理
+
 ## 基于配置文件的AspectJ
 
 * 使用表达式配置切入点
