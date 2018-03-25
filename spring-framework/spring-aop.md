@@ -32,6 +32,8 @@
 * `Introduction` - 在不修改代码的前提下，`Introduction`可以在**运行期**为`Target`动态添加方法或属性
 * `Proxy` - 一个`Target`被`Weaving`之后就产生一个结果代理类
 
+## SpringAOP一世
+
 ### SpringAOP的Pointcut
 
 `Pointcut`接口包含
@@ -92,6 +94,20 @@
 `Spring`可用的`AutoProxyCreator`
 1. `BeanNameAutoProxyCreator` - 半自动，需要指定为哪些`Bean`生成代理对象，以及要应用到目标对象的拦截器、`Advice`
 2. `DefaultAdvisorAutoProxyCreator` - 全自动，自动搜索容器内所有`Advisor`，根据其拦截信息，为符合条件的容器目标对象生成代理
+
+### TargetSource
+
+`TargetSource`的作用是为目标对象在外面加了个壳，是目标对象的**容器**！实际上，针对目标对象的方法调用经历层层拦截而到达调用链终点时，**并不是**直接调用目标对象方法，而是通过从`TargetSource`中取得目标对象上的相应方法！
+
+可用的`TargetSource`实现类
+1. `SingletonTargetSource` - 默认的
+2. `PrototypeTargetSource`
+3. `HotSwappableTargetSource` - 运行时根据某种条件**动态替换**目标对象类的具体实现，如**数据库双机热备**
+4. `CommonsPoolTargetSource` - 若不想每次返回新目标对象，而是想返回**有限数目**的**地位平等**的目标对象实例
+5. `ThreadLocalTargetSource` - 为不同线程调用提供不同目标对象
+6. 自定义`TargetSource` - `extends TargetClassAware`
+
+## SpringAOP二世
 
 ## 基于配置文件的AspectJ
 
