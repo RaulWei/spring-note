@@ -109,6 +109,24 @@
 
 ## SpringAOP二世
 
+### @AspectJ形式的Pointcut
+
+1. `Pointcut Expression`
+2. `Pointcut Signature` - 支持`&&`，`||`，`!`
+
+`Pointcut Expression`标志符
+1. `execution` - 匹配拥有**指定方法签名**的`Joinpoint`
+   1. `*` - 匹配**相邻多个字符**
+   2. `..` - 匹配**多层次类型声明**，匹配**0到多个参数**
+2. `within` - 匹配**指定类**下所有的`Joinpoint`
+3. `@within` - 指定**某种类型注解**，只要对象标注了该注解，则将匹配该对象内部所有`Joinpoint`，**静态**匹配
+4. `this` - 指代调用方`caller`，**代理对象**
+5. `target` - 指代被调用方`callee`，**目标对象**
+6. `@target` - 指定**某种类型注解**，只要对象标注了该注解，则将匹配该对象内部所有`Joinpoint`，运行期**动态**匹配
+7. `args` - 捕捉拥有指定参数类型、指定参数数量的方法级`Joinpoint`，注意它是**运行期动态检查**参数
+8. `@args` - 检查当前`Joinpoint`的方法参数类型，如果该次传入参数类型拥有`@args`指定注解，则匹配
+9. `@annotation` - 检查系统中**所有对象的所有方法**级别的`Joinpoint`，如果被检测方法标注有`@annotation`指定注解，则匹配
+
 ## 基于配置文件的AspectJ
 
 * 使用表达式配置切入点
