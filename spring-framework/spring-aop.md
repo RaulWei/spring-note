@@ -127,6 +127,18 @@
 8. `@args` - 检查当前`Joinpoint`的方法参数类型，如果该次传入参数类型拥有`@args`指定注解，则匹配
 9. `@annotation` - 检查系统中**所有对象的所有方法**级别的`Joinpoint`，如果被检测方法标注有`@annotation`指定注解，则匹配
 
+### @AspectJ形式的Advice
+
+1. 除了`@Around`和`Introduction`之外，第一个参数可以为`JoinPoint`
+2. `Pointcut`中**参数名称**与`Advice`方法调用中的参数进行绑定
+
+1. `@Before`
+2. `@AfterReturning`
+3. `@AfterThrowing`
+4. `@After` - 相当于`finally`，正常返回还是异常都会触发
+5. `@Around` - 第一个参数**必须**为`ProceedingJoinPoint`
+6. `@DeclareParents` - 用于`Introduction`，不是对方法而是对**域**进行标注，将需要添加的**新行为**逻辑，以**新接口定义**增加到目标对象上
+
 ## 基于配置文件的AspectJ
 
 * 使用表达式配置切入点
