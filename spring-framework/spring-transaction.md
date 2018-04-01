@@ -32,6 +32,11 @@
 3. `Transaction Manager` - `TP Monitor`的核心模块，直接负责多`RM`之间事务处理的协调工作
 4. `Application` - 独立形式存在的或运行于容器中的应用程序
 
+`Spring`事务抽象主要包括3个接口
+1. `TransactionDefinition` - 定义事务隔离级别、传播行为、超时时间、是否只读
+2. `TransactionStatus` - 定义整个事务处理过程中的**事务状态**
+3. `PlatformTransactionManager`
+
 
 1. 编程式事务管理
 2. 声明式事务管理
