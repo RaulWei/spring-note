@@ -4,8 +4,8 @@
 
 - [AOP底层原理](#aop底层原理)
 - [AOP操作术语](#aop操作术语)
-- [基于配置文件的AspectJ](#基于配置文件的aspectj)
-- [基于注解的AspectJ](#基于注解的aspectj)
+- [SpringAOP一世](#springaop一世)
+- [SpringAOP二世](#springaop二世)
 
 ---
 
@@ -33,6 +33,8 @@
 * `Proxy` - 一个`Target`被`Weaving`之后就产生一个结果代理类
 
 ## SpringAOP一世
+
+`Spring AOP`一世以内置接口为主！
 
 ### SpringAOP的Pointcut
 
@@ -109,7 +111,9 @@
 
 ## SpringAOP二世
 
-### @AspectJ形式的Pointcut
+`Spring AOP`二世以`AspectJ`为主！
+
+### AspectJ形式的Pointcut
 
 1. `Pointcut Expression`
 2. `Pointcut Signature` - 支持`&&`，`||`，`!`
@@ -127,11 +131,9 @@
 8. `@args` - 检查当前`Joinpoint`的方法参数类型，如果该次传入参数类型拥有`@args`指定注解，则匹配
 9. `@annotation` - 检查系统中**所有对象的所有方法**级别的`Joinpoint`，如果被检测方法标注有`@annotation`指定注解，则匹配
 
-### @AspectJ形式的Advice
+### AspectJ形式的Advice
 
-1. 除了`@Around`和`Introduction`之外，第一个参数可以为`JoinPoint`
-2. `Pointcut`中**参数名称**与`Advice`方法调用中的参数进行绑定
-
+常见`AspectJ`支持的`Advice`注解
 1. `@Before`
 2. `@AfterReturning`
 3. `@AfterThrowing`
@@ -139,10 +141,13 @@
 5. `@Around` - 第一个参数**必须**为`ProceedingJoinPoint`
 6. `@DeclareParents` - 用于`Introduction`，不是对方法而是对**域**进行标注，将需要添加的**新行为**逻辑，以**新接口定义**增加到目标对象上
 
-## 基于配置文件的AspectJ
+两个注意点
+1. 除了`@Around`和`Introduction`之外，第一个参数可以为`JoinPoint`
+2. `Pointcut`中**参数名称**与`Advice`方法调用中的参数进行绑定
 
-* 使用表达式配置切入点
-`execution(<访问修饰符>?<返回类型><方法名>(<参数>)<异常>)`
+### 基于配置文件的AspectJ
+
+使用表达式配置切入点：`execution(<访问修饰符>?<返回类型><方法名>(<参数>)<异常>)`
 
 ```Xml
 <bean id="book" class="cn.itcast.aop.Book"></bean>
@@ -160,7 +165,7 @@
 ```
 
 
-## 基于注解的AspectJ
+### 基于注解的AspectJ
 
 1. 创建对象
 2. `Spring`核心配置文件中开启`AOP`操作
