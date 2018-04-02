@@ -3,8 +3,7 @@
 ---
 
 - [事务基础](#事务基础)
-- [配置实现事务管理](#配置实现事务管理)
-- [注解实现事务管理](#注解实现事务管理)
+- [使用Spring进行事务管理](#使用spring进行事务管理)
 
 ---
 
@@ -37,37 +36,68 @@
 2. `TransactionStatus` - 定义整个事务处理过程中的**事务状态**
 3. `PlatformTransactionManager`
 
+## 使用Spring进行事务管理
 
-1. 编程式事务管理
-2. 声明式事务管理
-   1. 基于`xml`配置文件实现
-   2. 基于注解实现
+事务管理的实施通常有两种方式，**编程式事务管理**和**声明式事务管理**！
 
+### 编程式事务管理
 
-## 配置实现事务管理
+第一种，直接使用`PlatformTransactionManager`进行编程式事务管理！
+1. 好处 - 可以完全控制整个事务处理过程 
+2. 坏处 - 太底层，期间的异常处理就够我们忙了
 
-第一步，配置事务管理器
+```Java
+DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
+...
+TransactionStatus txStatus = transactionManager.getTransaction(definition);
+try {
+	// 业务逻辑
+} catch (xxxException e) {
+	transactionManager.rollback(txStatus);
+}
+transactionManager.commit(txStatus);
+```
+
+第二种，使用`TransactionTemplate`进行编程式事务管理，它是对`PlatformTransactionManager`相关事务界定操作及相关异常处理进行模板化封装，开发人员更多关注于`Callback`接口提供具体的事务界定内容即可！
+
+```Java
+TransactionTemplate txTemplate = ...;
+Object result = txTemplate.execute(new TransactionCallback() {
+	public Object doInTransaction(TransactionStatus txStatus) {
+		Object result = null;
+		// 各种事务操作
+		return result;
+	}
+});
+```
+
+### 声明式事务管理
+
+第一种，使用`xml`元数据驱动的声明式事务！
+
+从`Spring 1.x`到`2.x`，大致有4中配置方式
+1. `ProxyFactoryBean` + `TransactionInterceptor`
+2. `TransactionProxyFactoryBean`
+3. `BeanNameAutoProxyCreator`
+4. `Spring 2.x`
+
+这边只简单总结下`Spring 2.x`的做法
 
 ```xml
+<!-- 第一步，配置事务管理器 -->
 <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 	<!-- 注入dataSource -->
 	<property name="dataSource" ref="dataSource"></property>
 </bean>
-```
 
-第二步，配置事务增强
-
-```xml
+<!-- 第二步，配置事务增强 -->
 <tx:advice id="txAdvice" transaction-manager="transactionManager">
 	<tx:attributes>
 		<tx:method name="xx" />
 	</tx:attributes>
 </tx:advice>
-```
 
-第三步，配置切面
-
-```xml
+<!-- 第三步，配置切面 -->
 <aop:config>
 	<!-- 切入点 -->
 	<aop:pointcut expression="execution(* xx.xx.xx.xxService.*(..))" id="pointcut" />
@@ -76,25 +106,19 @@
 </aop:config>
 ```
 
-## 注解实现事务管理
+第二种，注解元数据驱动的声明式事务！
 
-第一步，配置事务管理器
 
 ```xml
+<!-- 第一步，配置事务管理器 -->
 <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 	<property name="dataSource" ref="dataSource"></property>
 </bean>
-```
 
-第二步，开启注解事务
-
-```xml
+<!-- 第二步，开启注解事务 -->
 <tx:annotation-driven transaction-manager="transactionManager" />
-```
 
-第三步，在要使用事务的方法所在类上面添加注解
-
-```Java
+<!-- 第三步，在要使用事务的方法所在类上面添加注解 -->
 @Transactional
 public class xxService { ... }
 ```
