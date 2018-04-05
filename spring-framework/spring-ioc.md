@@ -3,6 +3,7 @@
 ---
 
 - [IoC底层原理](#ioc底层原理)
+- [IoC容器](#ioc容器)
 - [基于配置文件的IoC](#基于配置文件的ioc)
 - [基于注解的IoC](#基于注解的ioc)
 - [Spring整合web项目](#spring整合web项目)
@@ -14,27 +15,30 @@
 * `xml`记录很多`class`信息 -> 解析`xml`提取信息 -> 反射创建对象 -> 管理对象
 * `Configuration`文件记录很多`Bean`信息 -> 解析提取信息 -> 反射创建对象 -> 管理对象
 
+
+## IoC容器
+
 `Spring`提供两种容器
 1. `BeanFactory` - 基础`IoC`容器，默认**延迟初始化**
 2. `ApplicationContext` - 在`BeanFactory`基础上构建的，默认容器启动后**全部初始化并绑定完成**
 
-### `BeanFactory`
+### BeanFactory
 
-`BeanFactoryPostProcessor`扩展机制允许在容器实例化对象之前，对注册到容器的`BeanDefinition`所保存的信息做相应修改！
-几种内置的`BeanFactoryPostProcessor`实现
+* `BeanFactoryPostProcessor`扩展机制允许在容器实例化对象前，对注册到容器的`BeanDefinition`所保存的信息做修改
+
 1. `PropertyPlaceholderConfigurer` - 替换`BeanDefinition`中的**占位符**，如`${jdbc.username}`，不仅会从`properties`加载配置，还会从`System`类中找
 2. `PropertyOverrideConfigurer` - 覆盖`BeanDefinition`中的配置信息
 3. `CustomEditorConfigurer` - `Spring`通过`JavaBean`的`PropertyEditor`来帮助`String`类型到其他类型的转换，这里允许自定义并包装`PropertyEditor`
 
-`BeanPostProcessor`会处理容器内所有符合条件的实例化后的对象实例
+* `BeanPostProcessor`会处理容器内所有符合条件的实例化后的对象实例
+
 1. 用标记接口来标注待处理类
 2. 自定义`BeanPostProcessor`的实现类，其中根据标记接口找到要处理的类
 3. 将自定义`BeanPostProcessor`注册到容器
 
-`Spring IoC`中几个重要接口
-1. `BeanFactoryAware` - 容器在实例化实现了该接口的`bean`的过程中会自动将容器本身注入该`bean`
+* `BeanFactoryAware`，容器在实例化实现了该接口的`bean`的过程中会自动将容器本身注入该`bean`
 
-### `ApplicationContext`
+### ApplicationContext
 
 #### 统一资源加载
 
@@ -62,7 +66,7 @@
 * `Spring`支持的国际化
 
 1. `MessageSource`统一了国际化访问，派生`AbstractMessageSource`，实现`StaticMessageSource`，`ResourceBundleMessageSource`，`ReloadableResourceBundleMessageSource`
-2. 实现`MessageSourceAware`则将`ApplicationContext`注入进来，侵入性太强，需要的话直接注入配置好的`MessageSource`就行
+2. 实现`MessageSourceAware`则将`ApplicationContext`注入进来，侵入性太强，直接注入配置好的`MessageSource`就行
 
 #### 容器内部事件发布
 
@@ -70,7 +74,7 @@
 
 1. 自定义事件类型`CustomEvent`
 2. 实现针对`CustomEvent`的事件监听器`EventListener`
-3. 事件发布器`EventPublisher`组合`CustomEvent`和`EventListener`，负责具体时点上`CustomEvent`的发布和`EventListener`的管理
+3. `EventPublisher`组合`CustomEvent`和`EventListener`，负责具体时点上`CustomEvent`的发布和`EventListener`的管理
 
 * `Spring`容器内事件发布
 
@@ -188,8 +192,3 @@ XXX xxx = context.getBean("xxx");
    * `@Controller` - `Web`层
    * `@Service` - 业务层
    * `@Repository` - 持久层
-
-## `BeanPostProcessor`
-
-`BeanPostProcessor` has 2 main methods, `postProcessBeforeInitialization` and `postProcessorAfterInitialization`.
-We can utilize this built-in instance to realize our custome annotation.
