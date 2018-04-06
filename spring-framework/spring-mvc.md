@@ -5,6 +5,7 @@
 - [Java Web发展历史](#java-web发展历史)
 - [Spring MVC处理流程](#spring-mvc处理流程)
 - [Spring MVC配置](#spring-mvc配置)
+- [Spring MVC基于注解的Controller](#spring-mvc基于注解的controller)
 
 ---
 
@@ -28,3 +29,27 @@
 1. `web.xml`是所有基于`Servlet`规范的`Web`应用程序**都有**的
 2. 在`web.xml`中定义`ContextLoaderListener`，将为整个`Web`应用程序加载**顶层**`WebApplicationContext`，默认配置文件路径为`/WEB-INF/applicationContext.xml`，可以通过配置`contextConfigLocation`来修改默认配置文件路径
 3. 在`web.xml`中定义`DispatcherServlet`，构建相应`WebApplicationContext`，将**2**中加载的`WebApplicationContext`作为父容器，默认配置文件为`/WEB-INF/<servlet-name>-servlet.xml`，`<servlet-name>-servlet.xml`中定义`HandlerMapping`，`ViewResolver`等面向`Web`层的组件，可以通过配置`DispatcherServlet`的`init-param`来修改默认配置文件路径
+
+## Spring MVC基于注解的Controller
+
+`Spring MVC`框架类`DispatcherServlet`
+
+1. 如何知道当前`Request`应该由哪个基于注解标注的`Controller`处理？
+   
+   `HandlerMapping`（官方`DefaultAnnotationHandlerMapping`）
+
+2. 如何知道调用基于注解标注的`Controller`的哪个方法来处理？
+   
+   `HandlerAdaptor`（官方`AnnotationMethodHandlerAdapter`）
+
+### 自定义用于基于注解的`Controller`的`HandlerMapping`
+
+1. 扫描`Classpath`遍历所有可用的基于注解的`Controller`
+2. 反射获取`@RequestMapping`相应信息与请求信息匹配
+3. 最终返回匹配结果
+
+### 自定义用于基于注解的`Controller`的`HandlerAdaptor`
+
+1. 反射查找标注了`@RequestMapping`的方法定义并匹配
+2. 反射调用方法
+3. 组装`DispatcherServlet`所需要的`ModelAndView`返回
