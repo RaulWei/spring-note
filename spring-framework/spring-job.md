@@ -3,6 +3,7 @@
 ---
 
 - [Spring Quartz](#spring-quartz)
+- [Spring TaskExecutor](#spring-taskexecutor)
 
 ---
 
@@ -85,3 +86,47 @@ public class HelloJobQuartzJobBean extends QuartzJobBean {
 	<property name="targetMethod" value="getAndPersistNews" />
 </bean>
 ```
+
+### Spring配置Trigger
+
+`Quartz`中两种`Trigger`实现
+1. `SimpleTrigger`
+2. `CronTrigger`
+
+在`Quartz`中，实例化`Trigger`时需要指定相应**管理组**和**组内唯一标志名称**，但是`Spring`提供了合理默认值，以`Bean`名称作为`Trigger`名称，以`DEFAULT`组作为默认组！
+
+```xml
+<bean id="simpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+	<property name="jobDetail" ref="jobDetail" />
+	<property name="repeatInterval" value="3000" />
+</bean>
+
+<bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+	<property name="jobDetail" ref="jobDetail" />
+	<property name="cronExpression" value="0 0/1 * * * ?" />
+</bean>
+```
+
+### Spring配置Scheduler
+
+```xml
+<bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+	<property name="triggers">
+		<list>
+			<ref bean="newsTrigger" />
+			<ref bean="simpleTrigger" />
+		</list>
+	</property>
+</bean>
+```
+
+## Spring TaskExecutor
+
+`Executor`的意义在于将**任务提交**和**任务执行策略**分隔开来，解除了二者的耦合！以`Runnable`类型界定的任务提交之后，最终以什么策略执行（什么时间执行、交给谁执行、等等），完全由不同`Executor`实现类负责！
+
+可用的`TaskExecutor`
+1. `SyncTaskExecutor` - 直接在当前调用线程中执行
+2. `SimpleAsyncTaskExecutor` - 每个任务都创建**新线程**执行，可设置线程**上限**
+3. `ThreadPoolTaskExecutor` - 线程池来管理并重用处理任务异步执行的工作线程
+4. `ConcurrentTaskExecutor`
+5. `TimerTaskExecutor`
